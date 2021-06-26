@@ -1,14 +1,16 @@
+# from users.models import User
 from django.db import models
 from django.core.validators import MaxValueValidator,MinValueValidator
+from django.conf import settings
 
 class Course(models.Model):
     title=models.CharField(max_length=225)
     description=models.TextField()
-    created=models.DateTimeField(auto_now=True)
-    updated=models.DateTimeField(auto_now_add=True)
+    created=models.DateTimeField(auto_now_add=True)
+    updated=models.DateTimeField(auto_now=True)
     rating=models.ManyToManyField('Rate',blank=True)
     sector=models.ForeignKey('Sector',on_delete=models.CASCADE)
-    # author=models.ForeignKey(Author,on_delete=models.CASCADE)
+    author=models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE)
     student_engaged_rating=models.IntegerField(default=0)
     language=models.CharField(max_length=225)
     course_length=models.CharField(default=0,max_length=20)
@@ -33,7 +35,7 @@ class Rate(models.Model):
     rate_number=models.IntegerField(validators=[MinValueValidator(0),MaxValueValidator(5)])
 
 
-class Section(models.Model):
+class CourseSection(models.Model):
     section_title=models.CharField(max_length=225,blank=True,null=True)
     section_number=models.IntegerField(blank=True,null=True)
     episodes=models.ManyToManyField('Episode',blank=True)
@@ -51,4 +53,14 @@ class Episode(models.Model):
     def save(self,*args, **kwargs):
         # self.length=self.get_video_length()
         return super().save(*args, **kwargs)
+
+
+class Comment(models.Model):
+    user=models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE)
+    message=models.TextField()
+    created=models.DateTimeField(auto_now=True)
+
+
+class Sector(models.Model):
+    name=models.CharField(max_length=225)
 
