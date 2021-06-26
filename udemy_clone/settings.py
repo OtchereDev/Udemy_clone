@@ -120,3 +120,6 @@ STATIC_ROOT=BASE_DIR/'static_root'
 STATICFILES_DIRS=[
     BASE_DIR/'static',
 ]
+
+# Auth settings
+AUTH_USER_MODEL='users.User'
