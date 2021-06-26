@@ -27,6 +27,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    #third party apps
+    "rest_framework",
+    "djoser" ,
+
+    # own apps
     'courses',
     'payments',
     'users',
@@ -123,3 +129,13 @@ STATICFILES_DIRS=[
 
 # Auth settings
 AUTH_USER_MODEL='users.User'
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+}
+
+SIMPLE_JWT = {
+   'AUTH_HEADER_TYPES': ('Token',),
+}
