@@ -9,26 +9,34 @@ class Course(models.Model):
     created=models.DateTimeField(auto_now_add=True)
     updated=models.DateTimeField(auto_now=True)
     rating=models.ManyToManyField('Rate',blank=True)
-    sector=models.ForeignKey('Sector',on_delete=models.CASCADE)
+    # sector=models.ForeignKey('Sector',on_delete=models.CASCADE)
     author=models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE)
-    student_engaged_rating=models.IntegerField(default=0)
+    student_rating=models.IntegerField(default=0)
     language=models.CharField(max_length=225)
     course_length=models.CharField(default=0,max_length=20)
     course_sections=models.ManyToManyField('CourseSection',blank=True)
     comment=models.ManyToManyField('Comment',blank=True)
 
     def get_rating(self):
-        if self.rating:
-            ratings=self.rating.objects.all()
-            rate=0
-            for rating in ratings:
-                rate+=rate.rate_number
-            rate/=len(ratings)
+        ratings=self.rating.objects.all()
+        rate=0
+        for rating in ratings:
+            rate+=rating.rate_number
+        rate/=len(ratings)
 
-            return rate
+        return rate
 
     def get_short_brief(self):
         return self.description[:100]
+
+    # def save(self,*args, **kwargs):
+    #     print(1)
+    #     if len(self.rating.objects.all()):
+    #         print(2)
+    #         rate=self.get_rating()
+    #         print(3)
+    #         self.rate=rate
+    #     return super().save(*args, **kwargs)
 
 
 class Rate(models.Model):
@@ -63,4 +71,5 @@ class Comment(models.Model):
 
 class Sector(models.Model):
     name=models.CharField(max_length=225)
+    related_courses=models.ManyToManyField(Course,blank=True)
 
