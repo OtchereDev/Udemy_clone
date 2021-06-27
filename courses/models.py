@@ -2,6 +2,7 @@
 from django.db import models
 from django.core.validators import MaxValueValidator,MinValueValidator
 from django.conf import settings
+import uuid
 
 class Course(models.Model):
     title=models.CharField(max_length=225)
@@ -16,6 +17,7 @@ class Course(models.Model):
     course_length=models.CharField(default=0,max_length=20)
     course_sections=models.ManyToManyField('CourseSection',blank=True)
     comment=models.ManyToManyField('Comment',blank=True)
+    course_uuid=models.UUIDField(default=uuid.uuid4,unique=True)
 
     def get_rating(self):
         ratings=self.rating.objects.all()
@@ -71,5 +73,6 @@ class Comment(models.Model):
 
 class Sector(models.Model):
     name=models.CharField(max_length=225)
+    sector_uuid=models.UUIDField(default=uuid.uuid4,unique=True)
     related_courses=models.ManyToManyField(Course,blank=True)
 
