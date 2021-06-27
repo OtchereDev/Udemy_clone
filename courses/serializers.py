@@ -1,5 +1,5 @@
 from users.serializers import UserSerializer
-from courses.models import Comment, Course, CourseSection, Episode
+from courses.models import Comment, Course, CourseSection, Episode, Sector
 from rest_framework.serializers import ModelSerializer
 
 class EpisodePaidSerializer(ModelSerializer):
@@ -73,3 +73,9 @@ class CoursePaidSerializer(ModelSerializer):
            
         ]
 
+class SectorSerializer(ModelSerializer):
+    class Meta:
+        model=Sector
+        exclude=[
+            'related_courses',
+        ]
