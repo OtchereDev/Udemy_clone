@@ -1,0 +1,9 @@
+Django==3.1.5
+gunicorn==20.0.4
+djangorestframework==3.12.2
+djoser==2.1.0
+django-cors-headers==3.5.0
+django-cloudinary-storage==0.3.0
+mutagen==1.45.1
+stripe==2.58.0
+cloudinary 
